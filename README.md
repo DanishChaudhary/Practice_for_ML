@@ -29,3 +29,111 @@ What this really means is:
 ---
 
 ## Repo structure
+
+├─ README.md
+├─ CONTRIBUTING.md
+├─ requirements.txt # python deps for experiments & tests
+├─ problems/ # solved practice problems (by topic)
+│ ├─ algorithms/
+│ │ ├─ 001-two-sum/
+│ │ │ ├─ README.md # problem statement, complexity, approach
+│ │ │ ├─ solution.py
+│ │ │ ├─ test_solution.py
+│ │ │ └─ data/ # optional example inputs
+│ ├─ dynamic-programming/
+│ └─ ...
+├─ concepts/ # notes & runnable examples
+│ ├─ linear-regression/
+│ │ ├─ notes.md
+│ │ ├─ demo.ipynb
+│ │ └─ requirements.txt
+│ └─ ...
+├─ experiments/ # quick experiments, small notebooks
+├─ notebooks/ # general notebooks
+└─ .github/
+├─ workflows/ci.yml
+├─ ISSUE_TEMPLATE.md
+└─ PULL_REQUEST_TEMPLATE.md
+
+
+---
+
+## Conventions (read this)
+Short, strict rules so the repo stays usable:
+
+- **Naming**: `problems/<topic>/<zero-padded-id>-short-title/`  
+  Example: `problems/algorithms/001-two-sum/`
+- **Each problem folder must contain**:
+  - `README.md` (statement, constraints, complexity)
+  - `solution.*` (one or more clean solutions)
+  - `test_solution.*` (unit tests that validate correctness)
+- **Language**: Use the language that makes the solution clear (Python preferred for ML/concepts). If you use Java or C, add a `README.md` describing how to build.
+- **Code style**:
+  - Python: type hints, `black` formatting, `pytest` for tests.
+  - Java: single public class per file, clear method-level comments.
+- **Commits**: Use clear messages — prefer `type(scope): short description`. Example: `feat(dp): add memoized knapsack solution`.
+- **Branches**: `main` (stable), `dev` (integration), `feature/<short>` for work.
+- **Tests**: Every solution must be backed by at least one deterministic unit test.
+
+---
+
+## How to add a problem / concept / experiment
+Here's the exact workflow I expect:
+
+1. Create folder: `problems/<topic>/<id>-<short-title>/`
+2. Add `README.md` with:
+   - Problem statement (copied + link)
+   - Constraints and edge cases
+   - Complexity (time, space)
+   - Approach summary (1–3 lines)
+3. Add `solution.py` (or `solution.java`) — clear, commented, type-hinted.
+4. Add `test_solution.py` (pytest) — include edge cases and typical cases.
+5. Run tests locally and then push a branch `feature/<id>-<short>` and open PR to `dev`.
+
+If it's a concept:
+- Put under `concepts/<concept-name>/`
+- Add `notes.md` summarizing intuition + formulas + pitfalls.
+- Add runnable examples (script or notebook).
+
+---
+
+## README template for a problem (paste into each problem `README.md`)
+```md
+# 001 — Two Sum
+
+**Source:** LeetCode 1 (link)  
+**Difficulty:** Easy  
+**Constraints:** n <= 10^5, values can be negative  
+**Goal:** Return indices of two numbers that add up to target.
+
+## Approach
+- Hash map: one-pass, store complement -> index.
+- Time: O(n), Space: O(n)
+
+## Edge cases
+- Duplicate values, negative numbers, no-solution case.
+
+## Files
+- `solution.py` — final solution
+- `test_solution.py` — pytest tests
+
+How to run & test locally
+
+Here's what works on any machine:
+
+# clone
+git clone https://github.com/DanishChaudhary/Practice_for_ML.git
+cd Practice_for_ML
+
+# python env (recommended)
+python -m venv .venv
+source .venv/bin/activate      # Linux/Mac
+.venv\Scripts\activate         # Windows
+
+pip install -r requirements.txt
+
+# run all tests
+pytest -q
+
+# run a single problem's test
+pytest problems/algorithms/001-two-sum/test_solution.py -q
